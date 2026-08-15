@@ -38,12 +38,12 @@ Example `/predict` response:
 ### Prerequisites
 - Python 3.10+
 - Docker (for the containerized version)
+- Obtain the `best.onnx` model file to be placed at `models/best.onnx` — export it from the [training repo](https://github.com/Yousselfie/pcb-component-detection-yolo26) by opening the notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1bZJOhZKFngtrtlRCCIYqq38GcLp_oQaW?usp=sharing)
+and running it on a CPU runtime (**Runtime** -> **Change runtime type** -> **CPU**)
 
-1. Obtain the `best.onnx` model file to be placed at `models/best.onnx` — export it from the [training repo](https://github.com/Yousselfie/pcb-component-detection-yolo26) by opening the notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1bZJOhZKFngtrtlRCCIYqq38GcLp_oQaW?usp=sharing)
-and running it on a CPU runtime (**Runtime** -> **Change runtime type** -> *CPU**)
 *Ensure you change the GDrive paths in the code to where your files live in your own drive before you run*
-2. Move the exported `best.onnx` file into `app/`
-3. Running the model:
+- Move the exported `best.onnx` file into `app/`
+
 ### Run locally (no Docker)
 ```
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
@@ -62,10 +62,10 @@ docker run -p 8000:8000 pcb-detector-api
 
 Then test at http://localhost:8000/docs exactly as above.
 
-4. **Deployment**:
+### **Deployment**:
 The image runs anywhere Docker runs, so it deploys to any container host (Google Cloud Run, Fly.io, a VPS, etc.). Point the host at this repo's `Dockerfile`; the app listens on the port set in the `CMD` (default 8000 — adjust to the host's expected port if needed).
 
-5. **CI**
+### **CI**
 `.github/workflows/ci.yml` runs on every push and pull request:
 1. Builds the Docker image.
 2. Starts the container and curls `/health`.
