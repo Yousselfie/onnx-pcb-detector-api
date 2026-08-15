@@ -71,3 +71,12 @@ The image runs anywhere Docker runs, so it deploys to any container host (Google
 2. Starts the container and curls `/health`.
 3. Fails the run if the container doesn't come up healthy.
 The green check is evidence the container builds and the service starts from a clean state.
+
+## Next steps
+ 
+- **Lean container.** The current image ships the full `ultralytics` + `torch` stack (~3.2GB) even though ONNX Runtime is what actually runs inference. Serving the `.onnx` directly with `onnxruntime` + `pillow` + `numpy` (no torch) would cut the image ~85% to a few hundred MB — smaller, faster to build, faster CI, and small enough for free-tier hosting.
+- **Pin dependencies** (`requirements.txt` or a lockfile) so the image builds identically over time.
+- **Cache Docker layers in CI** to avoid re-downloading the dependency stack on every run.
+## Tech stack
+ 
+Python · FastAPI · Uvicorn · ONNX / ONNX Runtime · Ultralytics YOLO26 · Docker · GitHub Actions
