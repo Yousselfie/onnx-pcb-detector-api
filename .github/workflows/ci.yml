@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t pcb-detector-api .
+
+      - name: Smoke test the container
+        run: |
+          docker run -d -p 8000:8000 --name api pcb-detector-api
+          sleep 20
+          curl --fail http://localhost:8000/health
+          docker rm -f api
