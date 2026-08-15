@@ -40,7 +40,23 @@ Example `/predict` response:
 - Docker (for the containerized version)
 
 1. Obtain the `best.onnx` model file to be placed at `models/best.onnx` — export it from the [training repo](https://github.com/Yousselfie/pcb-component-detection-yolo26) by opening the notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1bZJOhZKFngtrtlRCCIYqq38GcLp_oQaW?usp=sharing)
-and running it on a CPU runimte (**Runtime** -> **Change runtime type** -> *CPU**)
-
-
+and running it on a CPU runtime (**Runtime** -> **Change runtime type** -> *CPU**)
+*Ensure you change the GDrive paths in the code to where your files live in your own drive before you run*
+2. Move the exported `best.onnx` file into `app/`
+3. Running the model:
+### (no Docker)
+```
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+Open http://localhost:8000/docs and try `/predict`, or:
+```bash
+curl -X POST http://localhost:8000/predict -F "file=@test_pcb.jpg"
+```
+### (with Docker)
+```bash
+docker build -t pcb-detector-api .
+docker run -p 8000:8000 pcb-detector-api
+```
 
