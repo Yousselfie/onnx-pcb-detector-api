@@ -44,7 +44,7 @@ and running it on a CPU runtime (**Runtime** -> **Change runtime type** -> *CPU*
 *Ensure you change the GDrive paths in the code to where your files live in your own drive before you run*
 2. Move the exported `best.onnx` file into `app/`
 3. Running the model:
-### (no Docker)
+### Run locally (no Docker)
 ```
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -52,11 +52,22 @@ uvicorn app.main:app --reload
 ```
 Open http://localhost:8000/docs and try `/predict`, or:
 ```bash
-curl -X POST http://localhost:8000/predict -F "file=@test_pcb.jpg"
+curl -X POST http://localhost:8000/predict -F "file=@pcb-inf-1.jpeg"
 ```
-### (with Docker)
+### Run with Docker
 ```bash
 docker build -t pcb-detector-api .
 docker run -p 8000:8000 pcb-detector-api
 ```
 
+Then test at http://localhost:8000/docs exactly as above.
+
+4. **Deployment**:
+The image runs anywhere Docker runs, so it deploys to any container host (Google Cloud Run, Fly.io, a VPS, etc.). Point the host at this repo's `Dockerfile`; the app listens on the port set in the `CMD` (default 8000 — adjust to the host's expected port if needed).
+
+5. **CI**
+`.github/workflows/ci.yml` runs on every push and pull request:
+1. Builds the Docker image.
+2. Starts the container and curls `/health`.
+3. Fails the run if the container doesn't come up healthy.
+The green check is evidence the container builds and the service starts from a clean state.
