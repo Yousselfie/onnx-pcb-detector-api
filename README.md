@@ -38,6 +38,9 @@ Example `/predict` response:
 ### Prerequisites
 - Python 3.10+
 - Docker (for the containerized version)
-- A `best.onnx` model file placed at `models/best.onnx` — export it from the [training repo](https://github.com/Yousselfie/pcb-component-detection-yolo26) with:
+
+1. Obtain the `best.onnx` model file to be placed at `models/best.onnx` — export it from the [training repo](https://github.com/Yousselfie/pcb-component-detection-yolo26) by opening the notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1bZJOhZKFngtrtlRCCIYqq38GcLp_oQaW?usp=sharing)
+and running it on a CPU runimte (**Runtime** -> **Change runtime type** -> *CPU**)
+
 
 
